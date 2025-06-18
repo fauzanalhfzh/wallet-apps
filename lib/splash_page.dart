@@ -22,10 +22,7 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(body: Center(child: wAppLoading()));
   }
 
-  void _checkUserSementara(bool user) async {
-    await Future.delayed(Duration(seconds: 2));
-
-    // navigator
+  void _checkUserSementara(bool user) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => user ? HomePage() : LoginPage()),

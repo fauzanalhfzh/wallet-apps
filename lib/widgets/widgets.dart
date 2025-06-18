@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 /// Widget loading screen
 Widget wAppLoading() {
   return Container(
     color: Colors.white,
-    child: Center(child: CircularProgressIndicator()),
+    child: Center(child: CircularProgressIndicator(color: Colors.blue)),
   );
 }
 
@@ -98,4 +99,8 @@ Widget wTextLink({
       ],
     ),
   );
+}
+
+Future wShowToast(String message) {
+  return Fluttertoast.showToast(msg: message, toastLength: Toast.LENGTH_SHORT);
 }

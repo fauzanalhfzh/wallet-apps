@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:wallet_apps/screens/auth/forgot_password_page.dart';
+import 'package:wallet_apps/screens/auth/register_page.dart';
 import 'package:wallet_apps/screens/home/home_page.dart';
 import 'package:wallet_apps/widgets/widgets.dart';
 
@@ -14,8 +16,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
-  bool _obsecureText = true;
   bool _isLoading = false;
+  bool _obsecureText = true;
 
   Widget _inputEmail() {
     return TextField(
@@ -40,7 +42,9 @@ class _LoginPageState extends State<LoginPage> {
                 : Icon(Icons.visibility),
             color: Colors.grey[600],
             onPressed: () {
-              setState(() => _obsecureText = !_obsecureText);
+              setState(() {
+                _obsecureText = !_obsecureText;
+              });
             },
           ),
         ),
@@ -59,7 +63,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       onTap: () {
-        log("hello");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+        );
       },
     );
   }
@@ -102,7 +109,14 @@ class _LoginPageState extends State<LoginPage> {
                     wTextLink(
                       description: "Don't have an account yet?",
                       title: "Register",
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RegisterPage(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

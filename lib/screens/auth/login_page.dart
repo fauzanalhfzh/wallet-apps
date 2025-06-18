@@ -64,31 +64,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _textRegister() {
-    return Container(
-      margin: EdgeInsets.only(top: 40),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Don't have account yet?"),
-          GestureDetector(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              color: Colors.transparent,
-              child: Text(
-                "Register",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            onTap: () {
-              print("register");
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -124,7 +99,11 @@ class _LoginPageState extends State<LoginPage> {
                         log("Login with google");
                       },
                     ),
-                    _textRegister(),
+                    wTextLink(
+                      description: "Don't have an account yet?",
+                      title: "Register",
+                      onTap: () {},
+                    ),
                   ],
                 ),
               ),
@@ -133,11 +112,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void loginSementara() async {
-    setState(() {
-      _isLoading = true;
-    });
-
     if (_email.text == 'demo@example.com' && _password.text == "demo123") {
+      setState(() {
+        _isLoading = true;
+      });
       await Future.delayed(Duration(seconds: 2));
 
       Navigator.pushReplacement(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 /// Widget loading screen
 Widget wAppLoading() {
@@ -54,7 +55,7 @@ Widget wGoogleSignIn({required VoidCallback onPressed}) {
     child: ElevatedButton.icon(
       style: ElevatedButton.styleFrom(foregroundColor: Colors.blue),
       label: Text("Google"),
-      icon: Icon(Icons.adb),
+      icon: Icon(MdiIcons.google, size: 20),
       onPressed: onPressed,
     ),
   );
@@ -71,6 +72,30 @@ Widget wInputSubmit({required VoidCallback onPressed, required String title}) {
         foregroundColor: Colors.white,
       ),
       child: Text(title),
+    ),
+  );
+}
+
+Widget wTextLink({
+  required String description,
+  required String title,
+  required GestureTapCallback onTap,
+}) {
+  return Container(
+    margin: EdgeInsets.only(top: 40),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(description),
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            color: Colors.transparent,
+            child: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ],
     ),
   );
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wallet_apps/screens/auth/forgot_password_page.dart';
 import 'package:wallet_apps/screens/auth/register_page.dart';
 import 'package:wallet_apps/screens/home/home_page.dart';
+import 'package:wallet_apps/utils/utils.dart';
 import 'package:wallet_apps/widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,21 +19,27 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _password = TextEditingController();
   bool _isLoading = false;
   bool _obsecureText = true;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _inputEmail() {
-    return TextField(
+    return TextFormField(
       controller: _email,
       decoration: InputDecoration(hintText: "Email"),
+      keyboardType: TextInputType.emailAddress,
+      validator: (val) =>
+          uValidator(value: val, isRequired: true, isEmail: true),
     );
   }
 
   Widget _inputPassword() {
     return Stack(
       children: [
-        TextField(
+        TextFormField(
           controller: _password,
           obscureText: _obsecureText,
           decoration: InputDecoration(hintText: "Password"),
+          validator: (val) =>
+              uValidator(value: val, isRequired: true, minLength: 8),
         ),
         Align(
           alignment: Alignment.centerRight,
@@ -81,44 +88,47 @@ class _LoginPageState extends State<LoginPage> {
               resizeToAvoidBottomInset: false,
               body: Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    wAuthTitle(
-                      title: "Login",
-                      subtitle: "Enter your email and password",
-                    ),
-                    _inputEmail(),
-                    _inputPassword(),
-                    _forgotPassword(),
-                    wInputSubmit(
-                      onPressed: () {
-                        log("Email = ${_email.text}");
-                        log("Password = ${_password.text}");
-                        loginSementara();
-                      },
-                      title: "Login",
-                    ),
-                    wtextDivider(),
-                    wGoogleSignIn(
-                      onPressed: () {
-                        log("Login with google");
-                      },
-                    ),
-                    wTextLink(
-                      description: "Don't have an account yet?",
-                      title: "Register",
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RegisterPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      wAuthTitle(
+                        title: "Login",
+                        subtitle: "Enter your email and password",
+                      ),
+                      _inputEmail(),
+                      _inputPassword(),
+                      _forgotPassword(),
+                      wInputSubmit(
+                        onPressed: () {
+                          log("Email = ${_email.text}");
+                          log("Password = ${_password.text}");
+                          loginSementara();
+                        },
+                        title: "Login",
+                      ),
+                      wtextDivider(),
+                      wGoogleSignIn(
+                        onPressed: () {
+                          log("Login with google");
+                        },
+                      ),
+                      wTextLink(
+                        description: "Don't have an account yet?",
+                        title: "Register",
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegisterPage(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -126,7 +136,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void loginSementara() async {
-    if (_email.text == 'demo@example.com' && _password.text == "demo123") {
+    if (!_formKey.currentState!.validate()) return;
+    if (_email.text == 'demo@example.com' && _password.text == "demo12345") {
       setState(() {
         _isLoading = true;
       });
